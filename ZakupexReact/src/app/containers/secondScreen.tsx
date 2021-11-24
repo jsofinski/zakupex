@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import styles from '../styles/style'
 
 export default class SecondScreen extends React.Component {
     render() {
@@ -11,13 +12,3 @@ export default class SecondScreen extends React.Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
-

@@ -4,9 +4,10 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import FirstScreen from './src/app/containers/firstScreen';
-import SecondScreen from './src/app/containers/secondScreen';
-import MainClass from './src/app/containers/mainScreen';
+import FirstScreen from './src/app/screens/firstScreen';
+import SecondScreen from './src/app/screens/secondScreen';
+import MainClass from './src/app/screens/mainScreen';
+import ListListScreen from './src/app/screens/listListScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,8 +24,8 @@ export default function App() {
             component={FirstScreen}
           />
           <Stack.Screen
-            name="Second"
-            component={SecondScreen}
+            name="ListList"
+            component={ListListScreen}
           />
         </Stack.Navigator>
     </NavigationContainer>

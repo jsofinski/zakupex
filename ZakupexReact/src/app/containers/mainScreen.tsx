@@ -1,29 +1,22 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Image } from 'react-native';
+import styles from '../styles/style'
 
 export default class FirstScreen extends React.Component {
     render() {
         return (
           <View style={styles.container}>
+          <Image source={require('../assets/logo.png')} />
           <Text>hello!</Text>
           <StatusBar style="auto" />
-            <Button title="Screen 1" onPress={() => 
+            <Button title="Znajomi" onPress={() => 
               this.props.navigation.navigate('First')
             }/>
-            <Button title="Screen 2" onPress={() => 
-              this.props.navigation.navigate('Second')
+            <Button title="Listy zakupów" onPress={() => 
+              this.props.navigation.navigate('ListList')
               }/>
         </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
