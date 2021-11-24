@@ -8,6 +8,7 @@ import FirstScreen from './src/app/containers/firstScreen';
 import FriendsList from './src/app/containers/friendsList';
 import MainClass from './src/app/containers/mainScreen';
 import ListListScreen from './src/app/containers/listListScreen';
+import ListScreen from './src/app/containers/listScreen';
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,21 @@ export default function App() {
           }
             name="ListList"
             component={ListListScreen}
+          />
+          <Stack.Screen
+            options={{
+                title: 'Lista list zakupów',
+                headerStyle: {
+                  backgroundColor: '#f4511e',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+            }
+          }
+            name="List"
+            component={ListScreen}
           />
         </Stack.Navigator>
     </NavigationContainer>

@@ -2,22 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, Text, TouchableHighlight, SafeAreaView, FlatList } from 'react-native';
 import styles from '../styles/style'
-import { Icon } from 'react-native-elements'
 
 
 
-export default function ListListScreen(props: any) {
+export default function ListScreen(props: any) {
     const [names, setNames] = useState([
-        {name: 'Lista 1', key: '1'},
-        {name: 'Lista 2', key: '2'},
-        {name: 'Lista 3', key: '3'},
-        {name: 'Lista 4', key: '4'},
-        {name: 'Lista 5', key: '5'},
-        {name: 'Lista 6', key: '6'},
-        {name: 'Lista 7', key: '7'},
-        {name: 'Lista 8', key: '8'},
-        {name: 'Lista 9', key: '9'},
-        {name: 'Lista 10', key: '10'},
+        {name: 'Produkt 1', key: '1'},
+        {name: 'Produkt 2', key: '2'},
+        {name: 'Produkt 3', key: '3'},
+        {name: 'Produkt 4', key: '4'},
+        {name: 'Produkt 5', key: '5'},
+        {name: 'Produkt 6', key: '6'},
+        {name: 'Produkt 7', key: '7'},
+        {name: 'Produkt 8', key: '8'},
+        {name: 'Produkt 9', key: '9'},
+        {name: 'Produkt 10', key: '10'},
       ]);
 
 
@@ -29,7 +28,6 @@ export default function ListListScreen(props: any) {
             <TouchableHighlight onPress={() =>(handleClick(item))}>
                     <View style={styles.listContainer}>
                         <Text style={styles.item}>{item.name}</Text>  
-                        <Icon style={styles.item} name='rowing' />
                     </View>
             </TouchableHighlight>
             )}  
@@ -38,6 +36,5 @@ export default function ListListScreen(props: any) {
     );
     function handleClick(item: {name: string, key: string}) {
         console.log(item.name);
-        props.navigation.navigate('List')
     }
 }
