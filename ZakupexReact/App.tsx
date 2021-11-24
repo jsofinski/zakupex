@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import FirstScreen from './src/app/containers/firstScreen';
 import FriendsList from './src/app/containers/friendsList';
 import MainClass from './src/app/containers/mainScreen';
+import ListListScreen from './src/app/containers/listListScreen';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,21 @@ export default function App() {
           }
             name="FriendsList"
             component={FriendsList}
+          />
+          <Stack.Screen
+            options={{
+                title: 'Lista list zakupów',
+                headerStyle: {
+                  backgroundColor: '#f4511e',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+            }
+          }
+            name="ListList"
+            component={ListListScreen}
           />
         </Stack.Navigator>
     </NavigationContainer>
