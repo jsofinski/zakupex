@@ -15,7 +15,10 @@ export default class FirstScreen extends React.Component {
             }/>
             <Button title="Listy zakupów" onPress={() => 
               this.props.navigation.navigate('ListList')
-              }/>
+            }/>
+            <Button title="Lista znajomych" onPress={() => 
+              this.props.navigation.navigate('FriendsList')
+            }/>
         </View>
         );
     }
