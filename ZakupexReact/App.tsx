@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import FirstScreen from './src/app/containers/firstScreen';
-import SecondScreen from './src/app/containers/secondScreen';
+import FriendsList from './src/app/containers/friendsList';
 import MainClass from './src/app/containers/mainScreen';
 
 const Stack = createStackNavigator();
@@ -15,16 +15,49 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
           <Stack.Screen
+            options={{
+                title: 'Main screen',
+                headerStyle: {
+                  backgroundColor: '#f4511e',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+            }
+          }
             name="Home"
             component={MainClass}
           />
           <Stack.Screen
+            options={{
+                title: 'Dodawanie znajomego',
+                headerStyle: {
+                  backgroundColor: '#f4511e',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+            }
+          }
             name="First"
             component={FirstScreen}
           />
           <Stack.Screen
-            name="Second"
-            component={SecondScreen}
+            options={{
+                title: 'Znajomi',
+                headerStyle: {
+                  backgroundColor: '#f4511e',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+            }
+          }
+            name="FriendsList"
+            component={FriendsList}
           />
         </Stack.Navigator>
     </NavigationContainer>

@@ -8,11 +8,11 @@ export default class FirstScreen extends React.Component {
           <View style={styles.container}>
           <Text>hello!</Text>
           <StatusBar style="auto" />
-            <Button title="Screen 1" onPress={() => 
+            <Button title="Dodawanie znajomego"  onPress={() => 
               this.props.navigation.navigate('First')
             }/>
-            <Button title="Screen 2" onPress={() => 
-              this.props.navigation.navigate('Second')
+            <Button title="Lista znajomych" onPress={() => 
+              this.props.navigation.navigate('FriendsList')
               }/>
         </View>
         );
