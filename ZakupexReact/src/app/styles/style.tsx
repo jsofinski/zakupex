@@ -6,6 +6,7 @@ export default StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: 10
       },
     listContainer: {
         flex: 2,
@@ -18,5 +19,21 @@ export default StyleSheet.create({
         backgroundColor: 'pink',
         fontSize: 24,
         marginHorizontal: 10
-    },    
+    },
+    headerStyle: {
+        backgroundColor: '#f4511e'
+    },
+    headerTitleStyle: {
+        fontWeight: 'bold',
+    },
+    textInput: {
+        height: 40,
+        width: 200,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+    },
+    buttonSet: {
+        padding: 10
+    }
 });

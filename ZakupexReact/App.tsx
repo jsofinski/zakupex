@@ -9,6 +9,9 @@ import FriendsList from './src/app/containers/friendsList';
 import MainClass from './src/app/containers/mainScreen';
 import ListListScreen from './src/app/containers/listListScreen';
 import ListScreen from './src/app/containers/listScreen';
+import RegisterScreen from './src/app/containers/registerScreen';
+import LoginScreen from './src/app/containers/loginScreen';
+import style from './src/app/styles/style';
 
 const Stack = createStackNavigator();
 
@@ -19,13 +22,10 @@ export default function App() {
           <Stack.Screen
             options={{
                 title: 'Main screen',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
+                headerLeft: ()=> null,
                 headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
+                headerStyle: style.headerStyle,
+                headerTitleStyle: style.headerTitleStyle
             }
           }
             name="Home"
@@ -34,13 +34,9 @@ export default function App() {
           <Stack.Screen
             options={{
                 title: 'Dodawanie znajomego',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
                 headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
+                headerStyle: style.headerStyle,
+                headerTitleStyle: style.headerTitleStyle
             }
           }
             name="First"
@@ -49,13 +45,9 @@ export default function App() {
           <Stack.Screen
             options={{
                 title: 'Znajomi',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
                 headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
+                headerStyle: style.headerStyle,
+                headerTitleStyle: style.headerTitleStyle
             }
           }
             name="FriendsList"
@@ -64,13 +56,9 @@ export default function App() {
           <Stack.Screen
             options={{
                 title: 'Lista list zakupów',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
                 headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
+                headerStyle: style.headerStyle,
+                headerTitleStyle: style.headerTitleStyle
             }
           }
             name="ListList"
@@ -79,28 +67,37 @@ export default function App() {
           <Stack.Screen
             options={{
                 title: 'Lista list zakupów',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
                 headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
+                headerStyle: style.headerStyle,
+                headerTitleStyle: style.headerTitleStyle
             }
           }
             name="List"
             component={ListScreen}
           />
+          <Stack.Screen
+            options={{
+                title: 'Logowanie',
+                headerTintColor: '#fff',
+                headerStyle: style.headerStyle,
+                headerTitleStyle: style.headerTitleStyle
+            }
+          }
+            name="Login"
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            options={{
+                title: 'Rejestracja',
+                headerTintColor: '#fff',
+                headerStyle: style.headerStyle,
+                headerTitleStyle: style.headerTitleStyle
+            }
+          }
+            name="Register"
+            component={RegisterScreen}
+          />
         </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
