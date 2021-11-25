@@ -20,6 +20,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "pwr.mwo.zakupex",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./src/app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -27,6 +29,9 @@
     },
     "web": {
       "favicon": "./src/app/assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "@react-native-firebase/app"
+    ]
   }
 }
