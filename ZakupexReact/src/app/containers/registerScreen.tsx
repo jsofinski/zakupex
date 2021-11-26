@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
 import styles from '../styles/style'
+import auth from '@react-native-firebase/auth'
+import database from '@react-native-firebase/database'
 
 export default function RegisterScreen(props: any) {
+    const [nick, setNick] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -10,6 +13,12 @@ export default function RegisterScreen(props: any) {
     return (
         <View style={styles.container}>
             <Image source={require('../assets/logo.png')} />
+            <Text>Nick</Text>
+            <TextInput
+                style={styles.textInput}
+                onChangeText={(text) => setNick(text)}
+                value={nick}
+            />
             <Text>Email</Text>
             <TextInput
                 style={styles.textInput}
@@ -22,7 +31,7 @@ export default function RegisterScreen(props: any) {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
-            <Text>Hasło</Text>
+            <Text>Powtórz Hasło</Text>
             <TextInput
                 style={styles.textInput}
                 onChangeText={(text) => setConfirmPassword(text)}
@@ -37,9 +46,20 @@ export default function RegisterScreen(props: any) {
                 props.navigation.navigate('Login')
                 }/>
                 <Button title="Test register" onPress={() =>  {
-                    console.log(email)
-                    console.log(password)
-                    console.log(confirmPassword)
+                    if(password == confirmPassword && nick != ''){
+                        auth().createUserWithEmailAndPassword(email, password)
+                            .then((userCredential) => {
+                                console.log('Created accound and logged in as:' + userCredential.user.uid);
+                                database().ref(`users/${userCredential.user.uid}`).set({
+                                    'nickname': nick
+                                });
+                            })
+                            .catch((error) => {
+                                console.log('Error during account creation:', error);
+                            });
+                    }else{
+                        console.log('Error during account creation: Passwords don\'t match');
+                    }
                 }}/>
             </TouchableOpacity>
         </View>

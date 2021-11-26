@@ -66,13 +66,15 @@ export default function App() {
           />
           <Stack.Screen
             options={{
-                title: 'Lista list zakupów',
+                title: 'Lista zakupów',
                 headerTintColor: '#fff',
                 headerStyle: style.headerStyle,
                 headerTitleStyle: style.headerTitleStyle
             }
+            
           }
             name="List"
+            initialParams={{ref: null}}
             component={ListScreen}
           />
           <Stack.Screen

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
 import styles from '../styles/style'
+import auth from '@react-native-firebase/auth'
 
 export default function LoginScreen(props: any) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
     return (
         <View style={styles.container}>
             <Image source={require('../assets/logo.png')} />
@@ -30,8 +30,14 @@ export default function LoginScreen(props: any) {
                     props.navigation.navigate('Register')
                 }/>
                 <Button title="Test login" onPress={() =>  {
-                    console.log(email)
-                    console.log(password)
+                    auth().signInWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            console.log('Logged in as: ' + userCredential.user.uid);
+                            props.navigation.navigate('Home');
+                        })
+                        .catch((error) => {
+                            console.log('Login error:' + error);
+                        });
                 }}/>
             </TouchableOpacity>
         </View>
