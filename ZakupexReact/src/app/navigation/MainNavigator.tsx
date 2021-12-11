@@ -1,18 +1,24 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import style from '../styles/style';
 import FirstScreen from '../containers/firstScreen';
 import FriendsList from '../containers/friendsList';
-import MainClass from '../containers/mainScreen';
+import HomeScreen from '../containers/homeScreen';
 import ListListScreen from '../containers/listListScreen';
 import ListScreen from '../containers/listScreen';
 import RegisterScreen from '../containers/registerScreen';
 import LoginScreen from '../containers/loginScreen';
 
+import { updateUser } from '../redux/userReducer';
+
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
+	console.log("initialize");
+	useDispatch()(updateUser());
+
 	return (
 		<Stack.Navigator>
 			<Stack.Screen
@@ -25,7 +31,7 @@ export default function MainNavigator() {
 				}
 				}
 				name="Home"
-				component={MainClass}
+				component={HomeScreen}
 			/>
 			<Stack.Screen
 				options={{
