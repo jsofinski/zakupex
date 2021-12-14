@@ -43,6 +43,14 @@ export default function LoginScreen(props: any) {
                         }));
                     }
                 }} />
+                <Button title="DEV" onPress={() => {
+                    dispatch(login({
+                        email: 'A@a.pl',
+                        password: 'Haslo123',
+                        onSuccess: () => props.navigation.navigate('Home'),
+                        onError: (error) => console.log(error)
+                    }));
+                }} />
             </TouchableOpacity>
         </View>
     );

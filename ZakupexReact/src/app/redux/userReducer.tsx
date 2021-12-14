@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction, ThunkDispatch } from "@reduxjs/toolkit"
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
+import { updateLists } from "./listReducer"
 
 
 export type UserSliceState = {
@@ -15,9 +16,10 @@ const initialState: UserSliceState = {
 
 export const updateUser = createAsyncThunk(
     'userStore/updateUser',
-    async () => {
+    async (arg, thunkAPI) => {
         const user = auth().currentUser;
         if (user == null) {
+            thunkAPI.dispatch(updateLists())
             return initialState;
         } else {
             const snapshot = await database().ref(`users/${user.uid}/nickname`).once('value');
@@ -25,6 +27,7 @@ export const updateUser = createAsyncThunk(
                 uid: user.uid,
                 username: snapshot.val()
             }
+            thunkAPI.dispatch(updateLists())
             return response;
         }
     }

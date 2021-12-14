@@ -16,7 +16,6 @@ import { updateUser } from '../redux/userReducer';
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
-	console.log("initialize");
 	useDispatch()(updateUser());
 
 	return (
@@ -76,7 +75,7 @@ export default function MainNavigator() {
 
 				}
 				name="List"
-				initialParams={{ ref: null }}
+				initialParams={{ id: null }}
 				component={ListScreen}
 			/>
 			<Stack.Screen
