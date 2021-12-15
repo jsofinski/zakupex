@@ -110,7 +110,7 @@ const declineFriendRequest = createAsyncThunk<
 )
 
 
-const addFriend = createAsyncThunk<
+export const addFriend = createAsyncThunk<
     void,
     Friend,
     { state: RootState }
@@ -134,7 +134,7 @@ const addFriend = createAsyncThunk<
     }
 )
 
-const upadateFriends = createAsyncThunk(
+export const upadateFriends = createAsyncThunk(
     'fiendsStore/updateFriends',
     async (arg, thunkApi) => {
         const user = auth().currentUser;
@@ -159,9 +159,10 @@ const upadateFriends = createAsyncThunk(
     }
 )
 
-const querryFriends = createAsyncThunk(
+export const querryFriends = createAsyncThunk(
     'fiendsStore/querryFriends',
-    async (name: string) => {
+    async (name: string|null) => {
+        if(name == null) return [];
         let users = await database().ref(`nicknames/${name}`).once('value');
         let result: Array<Friend> = [];
         users.forEach((user) => {
@@ -177,7 +178,6 @@ const querryFriends = createAsyncThunk(
         return result;
     }
 )
-
 
 
 export const firendsSlice = createSlice({

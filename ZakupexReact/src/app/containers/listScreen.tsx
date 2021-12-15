@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Alert, SafeAreaView, TextInput, View, Text, StyleSheet, TouchableHighlight, Modal, FlatList, Pressable, Button } from 'react-native';
+import { Alert, SafeAreaView, TextInput, View, Text, TouchableHighlight, Modal, FlatList, Pressable, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, ListItem, removeItem, modifyItem } from '../redux/listReducer';
 import { RootState } from '../redux/store';
 import styles from '../styles/style'
+import { Icon } from 'react-native-elements'
 
 const exampleItem : ListItem = {
     id: '',
@@ -45,13 +46,14 @@ export default function ListScreen({ route }) {
                         dispatch(removeItem({listid: route.params.id, itemid: item.id}))
                     }}>
                         <View style={styles.listContainer}>
+                            <Icon style={styles.itemIcon} name='rowing' />
                             <Text style={styles.item}>{item.name}</Text>
                             <Text style={styles.item}>{item.quantity}</Text>
                         </View>
                     </TouchableHighlight>
                 )}
             />
-            <Button title='Add item' onPress={() => {
+            <Button color="#f4511e" title='Dodaj produkt' onPress={() => {
                 onChangeName("")
                 onChangeQuantity("")
                 setModalVisible(true);

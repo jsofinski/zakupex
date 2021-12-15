@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import style from '../styles/style';
-import FirstScreen from '../containers/firstScreen';
+import AddFriendScreen from '../containers/addFriendScreen';
 import FriendsList from '../containers/friendsList';
 import HomeScreen from '../containers/homeScreen';
 import ListListScreen from '../containers/listListScreen';
@@ -40,8 +40,8 @@ export default function MainNavigator() {
 					headerTitleStyle: style.headerTitleStyle
 				}
 				}
-				name="First"
-				component={FirstScreen}
+				name="AddFriend"
+				component={AddFriendScreen}
 			/>
 			<Stack.Screen
 				options={{

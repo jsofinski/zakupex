@@ -32,7 +32,7 @@ export default function ListListScreen(){
         <SafeAreaView>
             <FlatList
                 data={lists}
-                renderItem={({ item }) => (
+                renderItem={({ item, index }) => (
                     <TouchableHighlight onPress={() => {
                         navigation.navigate('List', { id: item.id })
                     }}
@@ -42,14 +42,14 @@ export default function ListListScreen(){
                         setModalVisibleSettings(!modalVisibleSettings)
                     }}>
                         <View style={styles.listContainer}>
-                            <Icon style={styles.item} name='rowing' />
                             <Text style={styles.item}>{item.name}</Text>
+                            <Text style={{flex: 0.1}}>{index+1}</Text>
                         </View>
                     </TouchableHighlight>
                 )}
             />
             <TouchableOpacity style={styles.buttonSet}>
-                <Button title='Stwórz nową listę' onPress={()=>{setModalVisible(true)}}></Button>
+                <Button color="#f4511e" title='Stwórz nową listę' onPress={()=>{setModalVisible(true)}}></Button>
             </TouchableOpacity>
             <Modal // Modal dodawania listy
                 animationType="slide"
@@ -85,7 +85,7 @@ export default function ListListScreen(){
                             setModalVisible(!modalVisible);
                         }}
                         >
-                        <Text style={styles.textStyle}>Anuluj</Text>
+                            <Text style={styles.textStyle}>Anuluj</Text>
                         </Pressable>
                     </View>
                 </View>

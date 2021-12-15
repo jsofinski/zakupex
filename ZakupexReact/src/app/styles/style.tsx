@@ -23,6 +23,12 @@ export default StyleSheet.create({
         fontSize: 24,
         marginHorizontal: 10,
     },
+    itemIcon: {
+      flex: 0.2,
+      padding: 6,
+      fontSize: 24,
+      marginHorizontal: 10,
+    },
     headerStyle: {
         backgroundColor: '#f4511e'
     },
@@ -59,6 +65,7 @@ export default StyleSheet.create({
         marginTop: 22
       },
       modalView: {
+        width: "80%",
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
@@ -82,7 +89,7 @@ export default StyleSheet.create({
         backgroundColor: "#F194FF",
       },
       buttonClose: {
-        backgroundColor: "#2196F3",
+        backgroundColor: "#f4511e",
       },
       textStyle: {
         color: "white",

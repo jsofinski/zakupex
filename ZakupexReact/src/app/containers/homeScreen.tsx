@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { RootState } from '../redux/store';
 import { logout } from '../redux/userReducer';
+import { querryFriends } from '../redux/friendsReducer';
 
 export default function HomeScreen() {
 	const navigation = useNavigation();
@@ -35,9 +36,10 @@ export default function HomeScreen() {
 				<View>
 				<ImageBackground source={require('../assets/background.png')} resizeMode="cover" style={{}}>
 						<Text />
-							<Button color="#f4511e" title="Znajomi" onPress={() =>
-								navigation.navigate('First')
-							} />
+							<Button color="#f4511e" title="Znajomi" onPress={() => {
+								dispatch(querryFriends(null))
+								navigation.navigate('AddFriend')
+							}} />
 						<Text />
 						<Button color="#f4511e" title="Listy zakupów" onPress={() =>
 							navigation.navigate('ListList')
