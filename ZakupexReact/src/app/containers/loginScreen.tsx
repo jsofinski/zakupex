@@ -32,11 +32,7 @@ export default function LoginScreen(props: any) {
                 value={password}
             />
             <TouchableOpacity style={styles.buttonSet}>
-                <Button title="Rejestracja" onPress={() =>
-                    props.navigation.navigate('Register')
-                } />
-                <Text />
-                <Button title="Login" onPress={() => {
+                <Button color="#f4511e" title="Login" onPress={() => {
                     if(email != '' && password != ''){
                         dispatch(login({
                             email: email,
@@ -47,11 +43,15 @@ export default function LoginScreen(props: any) {
                     }
                 }} />
                 <Text />
-                <Button title="Anuluj" onPress={() =>
+                <Button color="#f4511e" title="Don't have an account?" onPress={() =>
+                    props.navigation.navigate('Register')
+                } />
+                <Text />
+                <Button color="#f4511e" title="Cancel" onPress={() =>
                     props.navigation.navigate('Home')
                 } />
                 <Text />
-                <Button title="DEVMODE" onPress={() => {
+                <Button color="#f4511e" title="DEVMODE" onPress={() => {
                     dispatch(login({
                         email: 'A@a.pl',
                         password: 'Haslo123',

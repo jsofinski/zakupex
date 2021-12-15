@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import styles from '../styles/style'
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
@@ -22,7 +22,7 @@ export default function RegisterScreen(props: any) {
 				<Image style={styles.mainmenu_image} source={require('../assets/logo.png')} />
 			</View>
             <View style={{ flex: 75, backgroundColor: "white" }}>
-                    
+				 
                 <Text style={{textAlign:'center', fontWeight: 'bold', fontSize: 16}}>Nick</Text>
                 <TextInput
                     style={styles.textInput}
@@ -48,13 +48,13 @@ export default function RegisterScreen(props: any) {
                     value={confirmPassword}
                 />
                 <TouchableOpacity style={styles.buttonSet}>
-                    <Button title="Home" onPress={() => 
+                    <Button color="#f4511e" title="Home" onPress={() => 
                     props.navigation.navigate('Home')
                     }/>
-                    <Button title="Already have an account?" onPress={() => 
+                    <Button color="#f4511e" title="Already have an account?" onPress={() => 
                     props.navigation.navigate('Login')
                     }/>
-                    <Button title="Register" onPress={() =>  {
+                    <Button color="#f4511e" title="Register" onPress={() =>  {
                         if(password == confirmPassword && nick != '' && email != '' && password != ''){
                             dispatch(register({
                                 email: email,
@@ -68,7 +68,6 @@ export default function RegisterScreen(props: any) {
                         }
                     }}/>
                 </TouchableOpacity>
-
             </View>
         </View>
     );

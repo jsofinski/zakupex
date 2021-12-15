@@ -28,26 +28,26 @@ export default function HomeScreen() {
 			<View style={{ flex: 70 }}>
 				
 				{user == null ?
-						<Button title="Logowanie" onPress={() =>
+						<Button color="#f4511e" title="Logowanie" onPress={() =>
 							navigation.navigate('Login')
 						} />
 				:
 				<View>
 				<ImageBackground source={require('../assets/background.png')} resizeMode="cover" style={{}}>
 						<Text />
-							<Button title="Znajomi" onPress={() =>
+							<Button color="#f4511e" title="Znajomi" onPress={() =>
 								navigation.navigate('First')
 							} />
 						<Text />
-						<Button title="Listy zakupów" onPress={() =>
+						<Button color="#f4511e" title="Listy zakupów" onPress={() =>
 							navigation.navigate('ListList')
 						} />
 						<Text />
-						<Button title="Lista znajomych" onPress={() =>
+						<Button color="#f4511e" title="Lista znajomych" onPress={() =>
 							navigation.navigate('FriendsList')
 						} />
 						<Text />
-						<Button title="Wyloguj" onPress={() => { dispatch(logout()) }} />
+						<Button color="#f4511e" title="Wyloguj" onPress={() => { dispatch(logout()) }} />
 		 		 </ImageBackground>
 					
 				</View>
