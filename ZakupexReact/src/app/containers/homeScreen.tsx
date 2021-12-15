@@ -28,26 +28,33 @@ export default function HomeScreen() {
 			<View style={{ flex: 70 }}>
 				
 				{user == null ?
-						<Button color="#f4511e" title="Logowanie" onPress={() =>
-							navigation.navigate('Login')
-						} />
+					<View>
+						<ImageBackground source={require('../assets/background.png')} resizeMode="cover" style={{}}>
+							<Text>{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
+								<Button color="#f4511e" title="Logowanie" onPress={() =>
+									navigation.navigate('Login')
+								} />
+							<Text>{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
+						</ImageBackground>
+					</View>
 				:
 				<View>
 				<ImageBackground source={require('../assets/background.png')} resizeMode="cover" style={{}}>
 						<Text />
-							<Button color="#f4511e" title="Znajomi" onPress={() =>
+							<Button color="#f4511e" title="Listy zakupów" onPress={() =>
+								navigation.navigate('ListList')
+							} />
+						<Text />
+							<Button color="#f4511e" title="Lista znajomych" onPress={() =>
+								navigation.navigate('FriendsList')
+							} />
+						<Text />
+							<Button color="#f4511e" title="Dodaj znajomego" onPress={() =>
 								navigation.navigate('First')
 							} />
 						<Text />
-						<Button color="#f4511e" title="Listy zakupów" onPress={() =>
-							navigation.navigate('ListList')
-						} />
-						<Text />
-						<Button color="#f4511e" title="Lista znajomych" onPress={() =>
-							navigation.navigate('FriendsList')
-						} />
-						<Text />
 						<Button color="#f4511e" title="Wyloguj" onPress={() => { dispatch(logout()) }} />
+						<Text>{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
 		 		 </ImageBackground>
 					
 				</View>

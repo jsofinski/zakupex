@@ -5,6 +5,7 @@ import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/userReducer';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function RegisterScreen(props: any) {
     const [nick, setNick] = useState('');
@@ -22,7 +23,8 @@ export default function RegisterScreen(props: any) {
 				<Image style={styles.mainmenu_image} source={require('../assets/logo.png')} />
 			</View>
             <View style={{ flex: 75, backgroundColor: "white" }}>
-				 
+				<ScrollView>
+                <ImageBackground source={require('../assets/background.png')} resizeMode="cover" style={{}}>
                 <Text style={{textAlign:'center', fontWeight: 'bold', fontSize: 16}}>Nick</Text>
                 <TextInput
                     style={styles.textInput}
@@ -47,27 +49,26 @@ export default function RegisterScreen(props: any) {
                     onChangeText={(text) => setConfirmPassword(text)}
                     value={confirmPassword}
                 />
-                <TouchableOpacity style={styles.buttonSet}>
-                    <Button color="#f4511e" title="Home" onPress={() => 
-                    props.navigation.navigate('Home')
-                    }/>
-                    <Button color="#f4511e" title="Already have an account?" onPress={() => 
-                    props.navigation.navigate('Login')
-                    }/>
-                    <Button color="#f4511e" title="Register" onPress={() =>  {
-                        if(password == confirmPassword && nick != '' && email != '' && password != ''){
-                            dispatch(register({
-                                email: email,
-                                password: password,
-                                nickname: nick,
-                                onSuccess: () => props.navigation.navigate('Home'),
-                                onError: (error) => console.log(error)
-                            }));
-                        }else{
-                            console.log('Error during account creation: Passwords don\'t match or empty string');
-                        }
-                    }}/>
-                </TouchableOpacity>
+                <Button color="#f4511e" title="Register" onPress={() =>  {
+                    if(password == confirmPassword && nick != '' && email != '' && password != ''){
+                        dispatch(register({
+                            email: email,
+                            password: password,
+                            nickname: nick,
+                            onSuccess: () => props.navigation.navigate('Home'),
+                            onError: (error) => console.log(error)
+                        }));
+                    }else{
+                        console.log('Error during account creation: Passwords don\'t match or empty string');
+                    }
+                }}/>
+                <Text />
+                <Button color="#f4511e" title="Already have an account?" onPress={() => 
+                props.navigation.navigate('Login')
+                }/>
+                </ImageBackground>
+                </ScrollView>
+
             </View>
         </View>
     );
