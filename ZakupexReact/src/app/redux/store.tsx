@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
 import listReducer from "./listReducer";
 import userReducer from './userReducer';
+import friendsReducer from './friendsReducer';
 
 const store = configureStore({
     reducer: {
         listStore: listReducer,
-        userStore: userReducer
+        userStore: userReducer,
+        friendsStrore: friendsReducer
     }
 });
 

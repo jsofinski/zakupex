@@ -44,8 +44,26 @@ export const updateLists = createAsyncThunk<
             thunkAPI.dispatch(removeAllLists());
             return;
         }
-
         const uid = user.uid;
+
+        let newLists: Array<{ uid: string, lid: string }> = [];
+        (await database().ref(`users/${uid}/requests`).once('value')).forEach((user) => {
+            user.forEach((request) => {
+                if (request.child('type').val() == 'list_inv') {
+                    newLists.push({
+                        uid: request.child('uid').val(),
+                        lid: request.child('lid').val()
+                    });
+                }
+                return undefined;
+            });
+            return undefined;
+        });
+        
+        for(let list of newLists){
+            await database().ref(`users/${uid}/lists/${list.lid}`).set(list.uid);
+        }
+
         const snapshot = await database().ref(`users/${uid}/lists`).once('value');
 
         let listPaths: Array<{ uid: string, lid: string }> = [];
@@ -106,12 +124,24 @@ export const addUserToList = createAsyncThunk<
 >(
     'listStore/addUserToList',
     async (arg: { list: string, user: string }, thunkApi) => {
+        const user = auth().currentUser;
+        if (user == null) {
+            thunkApi.dispatch(removeAllLists());
+            return;
+        }
+        const uid = user.uid;
+
         let list = thunkApi.getState().listStore.lists.find((el) => el.id == arg.list);
         if (list == null) return;
         if (list.privileges != 'full') return;
         database().ref(list.reference).child(`users/${arg.user}`).set({
             privileges: 'modify'
-        })
+        });
+        database().ref(`users/${user}/requests/${uid}`).push({
+            type: 'list_inv',
+            uid: uid,
+            lid: list
+        });
     }
 );
 

@@ -60,6 +60,7 @@ export const register = createAsyncThunk(
         try{
             const userCredential = await auth().createUserWithEmailAndPassword(action.email, action.password);
             await database().ref(`users/${userCredential.user.uid}`).set({'nickname': action.nickname});
+            await database().ref(`nicknames/${action.nickname}/${userCredential.user.uid}`).set(true);
             thunkAPI.dispatch(updateUser());
             action.onSuccess();
         }catch(error){
