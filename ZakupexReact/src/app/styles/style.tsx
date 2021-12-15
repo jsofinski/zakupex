@@ -6,7 +6,7 @@ export default StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10
+        padding: 10,
       },
     listContainer: {
         flex: 2,
@@ -34,6 +34,19 @@ export default StyleSheet.create({
         padding: 10,
     },
     buttonSet: {
-        padding: 10
+        padding: 10,
+    },
+    mainmenu_container: {
+        flex: 1,
+        padding: 10,
+    },
+    mainmenu_image: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        bottom: 0,
+    },
+    button_mainmenu: {
+        flexDirection: "column"
     }
 });
