@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
+import { ImageBackground, View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import styles from '../styles/style'
@@ -11,29 +11,32 @@ export default function LoginScreen(props: any) {
     const dispatch = useDispatch()
 
     return (
-        <View style={styles.container}>
-            <Image source={require('../assets/logo.png')} />
-            <Text>Email</Text>
+        <View style={[styles.mainmenu_container, {
+			flexDirection: "column",
+		  }]}>
+			<View style={{ flex: 25, backgroundColor: "white" }}>
+				<Image style={styles.mainmenu_image} source={require('../assets/logo.png')} />
+			</View>
+            <View style={{ flex: 75, backgroundColor: "white" }}>
+                
+            <Text style={{textAlign:'center', fontWeight: 'bold', fontSize: 16}}>Email</Text>
             <TextInput
                 style={styles.textInput}
                 onChangeText={(text) => setEmail(text)}
                 value={email}
             />
-            <Text>Hasło</Text>
+            <Text style={{textAlign:'center', fontWeight: 'bold', fontSize: 16}}>Hasło</Text>
             <TextInput
                 style={styles.textInput}
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
-            <Text>Logowanie</Text>
             <TouchableOpacity style={styles.buttonSet}>
-                <Button title="Home" onPress={() =>
-                    props.navigation.navigate('Home')
-                } />
                 <Button title="Rejestracja" onPress={() =>
                     props.navigation.navigate('Register')
                 } />
-                <Button title="Test login" onPress={() => {
+                <Text />
+                <Button title="Login" onPress={() => {
                     if(email != '' && password != ''){
                         dispatch(login({
                             email: email,
@@ -43,7 +46,12 @@ export default function LoginScreen(props: any) {
                         }));
                     }
                 }} />
-                <Button title="DEV" onPress={() => {
+                <Text />
+                <Button title="Anuluj" onPress={() =>
+                    props.navigation.navigate('Home')
+                } />
+                <Text />
+                <Button title="DEVMODE" onPress={() => {
                     dispatch(login({
                         email: 'A@a.pl',
                         password: 'Haslo123',
@@ -52,6 +60,10 @@ export default function LoginScreen(props: any) {
                     }));
                 }} />
             </TouchableOpacity>
-        </View>
+			</View>
+		</View>
+			
+
+            
     );
 }

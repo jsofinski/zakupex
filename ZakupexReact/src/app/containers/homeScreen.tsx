@@ -16,7 +16,7 @@ export default function HomeScreen() {
 		<View style={[styles.mainmenu_container, {
 			flexDirection: "column",
 		  }]}>
-			<View style={{ flex: 25, backgroundColor: "darkorange" }}>
+			<View style={{ flex: 25, backgroundColor: "white" }}>
 				<Image style={styles.mainmenu_image} source={require('../assets/logo.png')} />
 			</View>
 			<View style={{ flex: 5, backgroundColor: "white" }}>
@@ -28,7 +28,7 @@ export default function HomeScreen() {
 			<View style={{ flex: 70 }}>
 				
 				{user == null ?
-						<Button title="Logowadnie" onPress={() =>
+						<Button title="Logowanie" onPress={() =>
 							navigation.navigate('Login')
 						} />
 				:
