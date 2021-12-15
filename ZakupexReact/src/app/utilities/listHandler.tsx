@@ -1,5 +1,5 @@
 import auth from '@react-native-firebase/auth'
-import database from '@react-native-firebase/database'
+import database, { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import { ListItem } from '../redux/listReducer';
 
 
@@ -61,4 +61,72 @@ export default class ListHandler {
             });
         }
     }
+
+    addCosts(oid: string, lid: string, description: string, costs: number) {
+        const user = auth().currentUser;
+        if (user == null) {
+            return
+        }
+        const uid = user.uid;
+
+        database().ref(`lists/${oid}/${lid}/costs`).push({
+            user: uid,
+            costs: costs,
+            description: description
+        });
+    }
+
+    async settleList(oid: string, lid: string) {
+        const cuser = auth().currentUser;
+        if (cuser == null) {
+            return
+        }
+        const uid = cuser.uid;
+
+        let usersSnapshot = await database().ref(`lists/${oid}/${lid}/users`).once('value')
+        let users: Array<string> = []
+        usersSnapshot.forEach((user) => {
+            if (user.key != null) users.push(user.key)
+            return undefined;
+        });
+        let listName = await (await database().ref(`lists/${oid}/${lid}/name`).once('value')).val();
+        let costs = await database().ref(`lists/${oid}/${lid}/costs`).once('value');
+
+        let to_write : Array<{ref: FirebaseDatabaseTypes.Reference, value: any}> = [];
+        costs.forEach((entry) => {
+            let cost = entry.child('costs').val()/(users.length-1);
+            for(let user of users){
+                if(user != entry.child('user').val()){
+                    to_write.push({
+                        ref: database().ref(`users/${user}/requests/${uid}`),
+                        value: {
+                            type: 'cost_log_owe',
+                            uid: entry.child('user').val(),
+                            list: listName,
+                            description: entry.child('description').val(),
+                            cost: cost.toString()
+                        }
+                    })
+                }else{
+                    to_write.push({
+                        ref: database().ref(`users/${entry.child('user').val()}/requests/${uid}`),
+                        value: {
+                            type: 'cost_log_paid',
+                            uid: user,
+                            list: listName,
+                            description: entry.child('description').val(),
+                            cost: cost.toString()
+                        }
+                    })
+                }
+            }
+            return undefined;
+        });
+        for(let entry of to_write){
+            const ref = await entry.ref.push();
+            await ref.set(entry.value);
+        }
+
+    }
+    
 }

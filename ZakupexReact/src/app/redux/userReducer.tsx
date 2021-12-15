@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction, ThunkDispatch } from "@re
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import { updateLists } from "./listReducer"
+import { upadateFriends } from "./friendsReducer"
+import { RootState } from "./store"
 
 
 export type UserSliceState = {
@@ -14,9 +16,14 @@ const initialState: UserSliceState = {
     username: null
 }
 
-export const updateUser = createAsyncThunk(
+export const updateUser = createAsyncThunk<
+    UserSliceState,
+    void,
+    { state: RootState }
+>(
     'userStore/updateUser',
     async (arg, thunkAPI) => {
+        thunkAPI.dispatch(upadateFriends())
         const user = auth().currentUser;
         if (user == null) {
             thunkAPI.dispatch(updateLists())
@@ -82,3 +89,7 @@ export const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+
+function updateFriends(): any {
+    throw new Error("Function not implemented.")
+}

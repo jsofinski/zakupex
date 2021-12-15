@@ -12,6 +12,8 @@ import RegisterScreen from '../containers/registerScreen';
 import LoginScreen from '../containers/loginScreen';
 
 import { updateUser } from '../redux/userReducer';
+import { FriendRequest } from '../containers/friendRequestsScreen';
+import oweListScreen from '../containers/oweListScreen';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +44,17 @@ export default function MainNavigator() {
 				}
 				name="AddFriend"
 				component={AddFriendScreen}
+			/>
+			<Stack.Screen
+			options={{
+				title: 'Zaproszenia',
+				headerTintColor: '#fff',
+				headerStyle: style.headerStyle,
+				headerTitleStyle: style.headerTitleStyle
+			}
+			}
+			name="FriendRequests"
+			component={FriendRequest}
 			/>
 			<Stack.Screen
 				options={{
@@ -99,6 +112,17 @@ export default function MainNavigator() {
 				}
 				name="Register"
 				component={RegisterScreen}
+			/>
+			<Stack.Screen
+				options={{
+					title: 'Rozliczenie rachunku',
+					headerTintColor: '#fff',
+					headerStyle: style.headerStyle,
+					headerTitleStyle: style.headerTitleStyle
+				}
+				}
+				name="OweList"
+				component={oweListScreen}
 			/>
 		</Stack.Navigator>
 	);

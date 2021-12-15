@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import auth from '@react-native-firebase/auth'
-import database from '@react-native-firebase/database'
+import database, { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import { RootState } from "./store";
 import ListHandler, { ListOptions } from "../utilities/listHandler";
 
@@ -15,6 +15,7 @@ export type ListItem = {
 
 export type List = {
     id: string,
+    oid: string,
     name: string,
     privileges: string,
     reference: string,
@@ -54,6 +55,7 @@ export const updateLists = createAsyncThunk<
                         uid: request.child('uid').val(),
                         lid: request.child('lid').val()
                     });
+                    request.ref.remove();
                 }
                 return undefined;
             });
@@ -69,7 +71,7 @@ export const updateLists = createAsyncThunk<
         let listPaths: Array<{ uid: string, lid: string }> = [];
         let currentLists = thunkAPI.getState().listStore.lists;
         snapshot.forEach((child) => {
-            if (child.key != null && !currentLists.some((list) => { return list.id == child.key })) {
+            if (child.key != null && !currentLists.some((list) => { return list.id == child.key})) {
                 listPaths.push({ uid: child.val(), lid: child.key });
             }
             return undefined;
@@ -77,6 +79,7 @@ export const updateLists = createAsyncThunk<
         for (let path of listPaths) {
             let ref = database().ref(`lists/${path.uid}/${path.lid}`);
             let priv = await ref.child(`users/${uid}/privileges`).once('value');
+
             if (priv.exists()) {
                 let hook = ref.on('value', (snapshot) => {
                     var items: Array<ListItem> = [];
@@ -92,6 +95,7 @@ export const updateLists = createAsyncThunk<
                     })
                     let payload: List = {
                         id: path.lid,
+                        oid: path.uid,
                         name: snapshot.child('name').val(),
                         privileges: snapshot.child(`users/${uid}/privileges`).val(),
                         reference: `lists/${path.uid}/${path.lid}`,
@@ -116,6 +120,19 @@ export const newList = createAsyncThunk(
     }
 );
 
+export const addReceipt = createAsyncThunk<
+    void,
+    { lid: string, description: string, cost: number},
+    { state: RootState }
+>(
+    'listStore/addReceipt',
+    async (arg, thunkApi)=>{
+        let list = thunkApi.getState().listStore.lists.find((el)=> el.id == arg.lid)
+        if(list != null){
+            ListHandler.getHandler().addCosts(list.oid, arg.lid, arg.description, arg.cost)
+        }
+    }
+);
 
 export const addUserToList = createAsyncThunk<
     {},
@@ -137,10 +154,10 @@ export const addUserToList = createAsyncThunk<
         database().ref(list.reference).child(`users/${arg.user}`).set({
             privileges: 'modify'
         });
-        database().ref(`users/${user}/requests/${uid}`).push({
+        database().ref(`users/${arg.user}/requests/${uid}`).push({
             type: 'list_inv',
             uid: uid,
-            lid: list
+            lid: list.id
         });
     }
 );
@@ -191,6 +208,7 @@ export const removeList = createAsyncThunk<
         if (list == undefined) return;
 
         if (list.privileges == 'full') {
+            await ListHandler.getHandler().settleList(list.oid, list.id);
             await database().ref(list.reference).remove();
         } else {
             console.log('missing privileges');

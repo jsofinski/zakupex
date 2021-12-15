@@ -15,20 +15,35 @@ export type FriendRequest = {
     path: string
 }
 
+export type OweLog = {
+    list: string,
+    description: string,
+    cost: number
+}
+
+export type Backlog = {
+    id: string,
+    log: Array<OweLog>
+}
+
 export type FriendsSliceState = {
     friends: Array<Friend>,
     requests: Array<FriendRequest>,
-    querry: Array<Friend>
+    querry: Array<Friend>,
+    friendOwe: Array<Backlog>
 }
 
 const initialState: FriendsSliceState = {
     friends: [],
     requests: [],
-    querry: []
+    querry: [],
+    friendOwe: []
 }
 
+//const log = useSelector((state: RootState) => state.friendsStrore.friendOwe.find((log)=> log.id == route.params.id ).log)
 
-const updateFriendRequests = createAsyncThunk(
+
+export const updateFriendRequests = createAsyncThunk(
     'firendsStore/updateFriendRequests',
     async () => {
         const user = auth().currentUser;
@@ -41,12 +56,14 @@ const updateFriendRequests = createAsyncThunk(
         const snapshot = await database().ref(`users/${uid}/requests`).once('value');
         snapshot.forEach((user) => {
             user.forEach((request) => {
-                if (request.child('type').val() == 'friend_inv' && request.key != null) {
-                    requests.push({
-                        id: request.key,
-                        name: request.child('').val(),
-                        path: `users/${uid}/requests/${user.key}/${request.key}`
-                    });
+                if (request.child('type').val() == 'friend_inv' && user.key != null) {
+                    if(!requests.some((el)=>el.id == user.key)){
+                        requests.push({
+                            id: user.key,
+                            name: request.child('nick').val(),
+                            path: `users/${uid}/requests/${user.key}/${request.key}`
+                        });
+                    }
                 }
                 return undefined;
             });
@@ -56,7 +73,7 @@ const updateFriendRequests = createAsyncThunk(
     }
 )
 
-const acceptFriendRequest = createAsyncThunk<
+export const acceptFriendRequest = createAsyncThunk<
     string | null,
     FriendRequest,
     { state: RootState }
@@ -88,7 +105,7 @@ const acceptFriendRequest = createAsyncThunk<
     }
 )
 
-const declineFriendRequest = createAsyncThunk<
+export const declineFriendRequest = createAsyncThunk<
     string | null,
     FriendRequest,
     { state: RootState }
@@ -117,16 +134,21 @@ export const addFriend = createAsyncThunk<
 >(
     'fiendsStore/addFriend',
     async (friend, thunkApi) => {
-        const user = auth().currentUser;
-        if (user == null) {
+        const uid = thunkApi.getState().userStore.uid
+        const username = thunkApi.getState().userStore.username;
+        if (uid == null || username == null ) {
             return;
         }
-        const uid = user.uid;
+        
 
         if (!thunkApi.getState().friendsStrore.friends.some((el) => el.id == friend.id)) {
             await database().ref(`users/${uid}/friends/${friend.id}`).set({
                 nick: friend.name,
                 owe: 0
+            });
+            database().ref(`users/${friend.id}/requests/${uid}`).push({
+                type: 'friend_inv',
+                nick: username
             });
             thunkApi.dispatch(upadateFriends());
         }
@@ -136,6 +158,31 @@ export const addFriend = createAsyncThunk<
 
 export const upadateFriends = createAsyncThunk(
     'fiendsStore/updateFriends',
+    async (arg, thunkApi) => {
+        const user = auth().currentUser;
+        if (user == null) {
+            return [];
+        }
+        const uid = user.uid;
+
+        let friends: Array<Friend> = [];
+        const snapshot = await database().ref(`users/${uid}/friends`).once('value');
+        snapshot.forEach((friend) => {
+            if (friend.key != null) {
+                friends.push({
+                    id: friend.key,
+                    name: friend.child('nick').val(),
+                    owe: friend.child('owe').val()
+                });
+            }
+            return undefined;
+        });
+        return friends;
+    }
+)
+
+export const handleOweLogRequests= createAsyncThunk(
+    'fiendsStore/handleOweLogRequests',
     async (arg, thunkApi) => {
         const user = auth().currentUser;
         if (user == null) {

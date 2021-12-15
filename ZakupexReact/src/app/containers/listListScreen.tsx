@@ -26,7 +26,7 @@ export default function ListListScreen(){
 
     const lists = useSelector((state: RootState) => state.listStore.lists)
     const getUsers = () => {
-        return ['KnQYLRxwzMXrO6ZHlKW9QvHtZzg2']
+        return []
     }
     return(
         <SafeAreaView>
@@ -112,7 +112,7 @@ export default function ListListScreen(){
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
                             dispatch(removeList(editList))
-                            console.log(editList)
+                            console.log("usuwanie ", editList)
                             setModalVisibleSettings(!modalVisibleSettings);
                         }}>
                             <Text style={styles.textStyle}>Usuń listę</Text>

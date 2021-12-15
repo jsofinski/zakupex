@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+    adam: {
+      fontSize: 24,
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      paddingHorizontal: 25,
+      width: '70%',
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -107,5 +114,5 @@ export default StyleSheet.create({
           margin: 12,
           borderWidth: 1,
           padding: 10,
-        },
+      },
 });

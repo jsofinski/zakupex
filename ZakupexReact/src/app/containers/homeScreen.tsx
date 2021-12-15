@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { RootState } from '../redux/store';
 import { logout } from '../redux/userReducer';
-import { querryFriends } from '../redux/friendsReducer';
+import { querryFriends, upadateFriends } from '../redux/friendsReducer';
+import { updateLists } from '../redux/listReducer';
 
 export default function HomeScreen() {
 	const navigation = useNavigation();
@@ -43,17 +44,14 @@ export default function HomeScreen() {
 				<View>
 				<ImageBackground source={require('../assets/background.png')} resizeMode="cover" style={{}}>
 						<Text />
-							<Button color="#f4511e" title="Znajomi" onPress={() => {
-								dispatch(querryFriends(null))
-								navigation.navigate('AddFriend')
-							}} />
-							<Button color="#f4511e" title="Listy zakupów" onPress={() =>
+							<Button color="#f4511e" title="Listy zakupów" onPress={() =>{
+								dispatch(updateLists())
 								navigation.navigate('ListList')
-							} />
+							}} />
 						<Text />
-							<Button color="#f4511e" title="Lista znajomych" onPress={() =>
-								navigation.navigate('FriendsList')
-							} />
+							<Button color="#f4511e" title="Znajomi" onPress={() =>{
+									navigation.navigate('FriendsList')
+							}} />
 						<Text />
 						<Button color="#f4511e" title="Wyloguj" onPress={() => { dispatch(logout()) }} />
 						<Text>{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>

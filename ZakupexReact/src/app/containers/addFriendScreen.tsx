@@ -8,7 +8,6 @@ import { RootState } from '../redux/store';
 export default function AddFriendScreen() {
 
     // const users = useSelector((state: RootState) => state.friendsStrore.friends)
-    const users = useSelector((state: RootState) => state.friendsStrore.friends)
     const [name, onChangeName] = React.useState("");
     const dispatch = useDispatch();
     const querry = useSelector((state: RootState) => state.friendsStrore.querry)
@@ -40,6 +39,13 @@ export default function AddFriendScreen() {
                     console.log("long click")
                     console.log(querry[index].id)
                     dispatch(addFriend(item));
+                    Alert.alert(
+                        "Dodano znajomego " + item.name + ".",
+                        "",
+                        [
+                            { text: "OK..."}
+                        ]
+                    )
                 }}>
                     <View style={styles.listContainer}>
                         <Text style={styles.item}>{item.name}</Text>
