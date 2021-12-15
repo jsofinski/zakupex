@@ -9,7 +9,7 @@ import ListHandler, { ListOptions } from "../utilities/listHandler";
 export type ListItem = {
     id: string,
     name: string,
-    quantity: number,
+    quantity: string,
     icon: string
 }
 
@@ -126,6 +126,21 @@ export const removeUserFromList = createAsyncThunk<
         if (list == null) return;
         if (list.privileges != 'full') return;
         database().ref(list.reference).child(`users/${arg.user}`).remove()
+    }
+);
+
+export const renameList = createAsyncThunk<
+    void,
+    { id: string, name: String },
+    { state: RootState }
+>(
+    'listStore/renameList',
+    async (arg, thunkApi) => {
+        let list = thunkApi.getState().listStore.lists.find((el) => el.id == arg.id);
+        if (list != undefined) {
+            let ref = list.reference
+            database().ref(ref).child('name').set(arg.name);
+        }
     }
 );
 
