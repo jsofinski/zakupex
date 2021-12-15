@@ -14,11 +14,11 @@ export default function FriendsList() {
     const dispatch = useDispatch();
 
     const users = useSelector((state: RootState) => state.friendsStrore.friends);
-    console.log(users)
+    // console.log(users)
 
     const actionOnRow = (item: any) => {
         console.log('Kliknieto :', item);
-        navigation.navigate('OweList', {name: item.name ,id: item.uid})
+        navigation.navigate('OweList', {name: item.name ,id: item.id})
     }
     const longActionOnRow = (item: any) => {
         console.log('Przytrzymano :', item);
@@ -50,9 +50,20 @@ export default function FriendsList() {
                 renderItem={({ item }) =>
                     <View>
                         <TouchableOpacity onPress={() => actionOnRow(item)} onLongPress={() => longActionOnRow(item)}>
-                            <Text style={styles.item}>
-                                {item.name}     dłużny: {item.owe}zł
-                            </Text>
+                            {item.owe == 0 ?
+                                <Text style={styles.item}>
+                                    {item.name}     ist eben
+                                </Text>
+                                :
+                                item.owe > 0 ? 
+                                    <Text style={styles.item}>
+                                        {item.name}     jest dłużny: {item.owe}zł
+                                    </Text>
+                                    :
+                                    <Text style={styles.item}>
+                                        {item.name}    jesteś dłużny: {-item.owe}zł
+                                   </Text>
+                            }
                             {/* <Image
                                 style={styles.stretch}
                                 source={require('./minus.png')}

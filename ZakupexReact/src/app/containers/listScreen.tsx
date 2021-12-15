@@ -43,18 +43,18 @@ export default function ListScreen({ route }) {
                 renderItem={({ item }) => (
                     <TouchableHighlight 
                     onPress={() => {
-                        console.log(item.id)
+                        // console.log(item.id)
                         setEditItem(item.id)
                         onChangeName(item.name)
                         onChangeQuantity(item.quantity)
                         setModalVisibleEdit(!modalVisibleEdit)
                     }}
                     onLongPress={() => {
-                        console.log('Long Press: ', item.id)
+                        // console.log('Long Press: ', item.id)
                         dispatch(removeItem({listid: route.params.id, itemid: item.id}))
                     }}>
                         <View style={styles.listContainer}>
-                            <Icon style={styles.itemIcon} name='rowing' />
+                            {/* <Icon style={styles.itemIcon} name='rowing' /> */}
                             <Text style={styles.item}>{item.name}</Text>
                             <Text style={styles.item}>{item.quantity}</Text>
                         </View>
@@ -237,7 +237,7 @@ export default function ListScreen({ route }) {
                         <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
-                            console.log("dodano ", parseFloat(receiptAmount))
+                            // console.log("dodano ", parseFloat(receiptAmount))
                             dispatch(addReceipt({lid:route.params.id, description: receiptDescription, cost: parseFloat(receiptAmount)}));
                             setModalVisibleAddReceipt(!modalVisibleAddReceipt);
                         }}

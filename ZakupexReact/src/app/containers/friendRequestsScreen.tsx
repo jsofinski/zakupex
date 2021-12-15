@@ -9,7 +9,7 @@ import { declineFriendRequest, acceptFriendRequest } from '../redux/friendsReduc
 export function FriendRequest() {
     const dispatch = useDispatch();
     const requests = useSelector((state: RootState) => state.friendsStrore.requests)
-    console.log(requests)
+    // console.log(requests)
     
     const actionOnAccept = (item: any) => {
         dispatch(acceptFriendRequest(item));

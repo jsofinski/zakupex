@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, Button, TextInput, FlatList, TouchableHighlight } from 'react-native';
+import { Alert, View, Text, SafeAreaView, Button, TextInput, FlatList, TouchableHighlight } from 'react-native';
 import { querryFriends, addFriend } from '../redux/friendsReducer';
 import styles from '../styles/style'
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ export default function AddFriendScreen() {
     const [name, onChangeName] = React.useState("");
     const dispatch = useDispatch();
     const querry = useSelector((state: RootState) => state.friendsStrore.querry)
-    console.log(querry)
+    // console.log(querry)
     return (
         <SafeAreaView>
             <View>
@@ -22,9 +22,9 @@ export default function AddFriendScreen() {
                     placeholder="Nazwa"
                 />
                 <Button color="#f4511e" title='Wyszukaj' onPress={() => {
-                    console.log(name)
+                    // console.log(name)
                     dispatch(querryFriends(name))
-                    console.log(querry)
+                    // console.log(querry)
                 }}></Button>
             </View>
             <FlatList
@@ -32,12 +32,12 @@ export default function AddFriendScreen() {
             renderItem={({ item, index }) => (
                 <TouchableHighlight 
                 onPress={() => {
-                    console.log("click")
-                    console.log(querry[index].id)
+                    // console.log("click")
+                    // console.log(querry[index].id)
                 }}
                 onLongPress={() => {
-                    console.log("long click")
-                    console.log(querry[index].id)
+                    // console.log("long click")
+                    // console.log(querry[index].id)
                     dispatch(addFriend(item));
                     Alert.alert(
                         "Dodano znajomego " + item.name + ".",

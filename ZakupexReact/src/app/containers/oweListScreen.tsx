@@ -13,16 +13,9 @@ export default function oweListScreen({ route }) {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const users = useSelector((state: RootState) => state.friendsStrore.friends);
-    console.log(users)
-    
-    const owelog = null;
-    // const oweLog = useSelector((state: RootState) => state.friendsStrore.friendOwe.find((log) => log.id == route.params.id ).log)
-    
-    // const oweLogData = useSelector((state: RootState) => state.friendsStrore.OweLog.find((log) => log.id == route.params.id ).log)
+    const rawList = useSelector((state: RootState)=> state.friendsStrore.friendOwe.find((el)=>el.id == route.params.id)?.log);
+    const oweLog = rawList==undefined ? [] : rawList;
 
-    navigation.setOptions({
-        title: 'Rachunek: ' + route.params.name,
-    })
 
     const actionOnRow = (item: any) => {
         console.log('Kliknieto :', item);
@@ -33,9 +26,9 @@ export default function oweListScreen({ route }) {
 
     return (
         <View style={styles.container}>
-            {/* <Text style={styles.item}>Wybrany dłużnik: {route.params.name}</Text> */}
-            {/* <FlatList
-                data={oweLogData}
+            <Text style={styles.item}>Wybrany dłużnik: {route.params.name}</Text>
+            <FlatList
+                data={oweLog}
                 renderItem={({ item }) =>
                     <View>
                         { <TouchableOpacity onPress={() => actionOnRow(item)} onLongPress={() => longActionOnRow(item)}>
@@ -44,14 +37,14 @@ export default function oweListScreen({ route }) {
                                 {'\n'}
                                 Opis: {item.description}
                                 {'\n'}
-                                Wysokość długu: {item.cost}
-                                {'\n'}
+                                {item.type == "owe" ? `Jesteś dłużny: ${item.cost}` : `Zapłaciłeś: ${item.cost}`}
                             </Text>
                         </TouchableOpacity> }
                         
                     </View>
                 }
-            /> */}
+                keyExtractor={(item, index) => index.toString()}
+            />
         </View>
     );
 

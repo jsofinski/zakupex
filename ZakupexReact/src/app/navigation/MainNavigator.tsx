@@ -122,6 +122,7 @@ export default function MainNavigator() {
 				}
 				}
 				name="OweList"
+				initialParams={{ id: null, name: null }}
 				component={oweListScreen}
 			/>
 		</Stack.Navigator>

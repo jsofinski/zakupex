@@ -94,7 +94,7 @@ export default class ListHandler {
 
         let to_write : Array<{ref: FirebaseDatabaseTypes.Reference, value: any}> = [];
         costs.forEach((entry) => {
-            let cost = entry.child('costs').val()/(users.length-1);
+            let cost = entry.child('costs').val()/(users.length);
             for(let user of users){
                 if(user != entry.child('user').val()){
                     to_write.push({
@@ -104,20 +104,24 @@ export default class ListHandler {
                             uid: entry.child('user').val(),
                             list: listName,
                             description: entry.child('description').val(),
-                            cost: cost.toString()
+                            cost: cost
                         }
-                    })
+                    });
                 }else{
-                    to_write.push({
-                        ref: database().ref(`users/${entry.child('user').val()}/requests/${uid}`),
-                        value: {
-                            type: 'cost_log_paid',
-                            uid: user,
-                            list: listName,
-                            description: entry.child('description').val(),
-                            cost: cost.toString()
+                    for(let usr of users){
+                        if(usr != user){
+                            to_write.push({
+                                ref: database().ref(`users/${user}/requests/${usr}`),
+                                value: {
+                                    type: 'cost_log_paid',
+                                    uid: usr,
+                                    list: listName,
+                                    description: entry.child('description').val(),
+                                    cost: cost
+                                }
+                            });
                         }
-                    })
+                    }
                 }
             }
             return undefined;
@@ -127,6 +131,65 @@ export default class ListHandler {
             await ref.set(entry.value);
         }
 
+    }
+    async handleOweLogRequests() {
+        const user = auth().currentUser;
+        if (user == null) {
+            return [];
+        }
+        const uid = user.uid;
+        let requests: Array<{
+            type: string,
+            ref: FirebaseDatabaseTypes.Reference,
+            description: string,
+            uid: string,
+            list: string,
+            cost: number
+        }> = []        
+        
+        const snapshot = await database().ref(`users/${uid}/requests`).once('value');
+        
+        snapshot.forEach((usr)=>{
+            usr.forEach((request)=>{
+                if(request.child('type').val() == 'cost_log_paid'){
+                    requests.push({
+                        type: 'paid',
+                        ref: database().ref(`users/${uid}/requests/${usr.key}/${request.key}`),
+                        description: request.child('description').val(),
+                        uid: request.child('uid').val(),
+                        list: request.child('list').val(),
+                        cost: request.child('cost').val()
+                    });
+                }else if(request.child('type').val() == 'cost_log_owe'){
+                    requests.push({
+                        type: 'owe',
+                        ref: database().ref(`users/${uid}/requests/${usr.key}/${request.key}`),
+                        description: request.child('description').val(),
+                        uid: request.child('uid').val(),
+                        list: request.child('list').val(),
+                        cost: request.child('cost').val()
+                    });
+                }
+            });
+        });
+
+        for(let request of requests){
+            request.ref.remove();
+            let owe = (await database().ref(`users/${uid}/friends/${request.uid}/owe`).once('value')).val()
+            await database().ref(`users/${uid}/friends/${request.uid}/log`).push({
+                type: request.type,
+                list: request.list,
+                description: request.description,
+                amount: request.cost
+            });
+    
+            if(request.type == 'owe'){
+                owe -= request.cost;
+            }else{
+                owe += request.cost;
+            }
+            await database().ref(`users/${uid}/friends/${request.uid}/owe`).set(owe)
+        }
     }
     
 }

@@ -2,6 +2,7 @@ import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import { RootState } from "./store";
+import ListHandler from "../utilities/listHandler";
 
 export type Friend = {
     id: string,
@@ -17,6 +18,7 @@ export type FriendRequest = {
 
 export type OweLog = {
     list: string,
+    type: string,
     description: string,
     cost: number
 }
@@ -33,6 +35,9 @@ export type FriendsSliceState = {
     friendOwe: Array<Backlog>
 }
 
+//const rawList = useSelector((state: RootState)=> state.friendsStrore.friendOwe.find((el)=>el.id == route.params.id)?.log);
+//const list = rawList==undefined ? [] : rawList;
+
 const initialState: FriendsSliceState = {
     friends: [],
     requests: [],
@@ -40,12 +45,10 @@ const initialState: FriendsSliceState = {
     friendOwe: []
 }
 
-//const log = useSelector((state: RootState) => state.friendsStrore.friendOwe.find((log)=> log.id == route.params.id ).log)
-
 
 export const updateFriendRequests = createAsyncThunk(
     'firendsStore/updateFriendRequests',
-    async () => {
+    async (arg, thunkApi) => {
         const user = auth().currentUser;
         if (user == null) {
             return [];
@@ -62,13 +65,22 @@ export const updateFriendRequests = createAsyncThunk(
                             id: user.key,
                             name: request.child('nick').val(),
                             path: `users/${uid}/requests/${user.key}/${request.key}`
-                        });
+                        });  
                     }
                 }
                 return undefined;
             });
             return undefined;
         });
+
+        let n = requests.length;
+        for(let i=0; i<n;){
+            if((await database().ref(`users/${uid}/friends`).once('value')).hasChild(requests[i].id)){
+                await database().ref(requests[i].path).remove();
+                requests.splice(i,1);
+                n--;
+            }
+        }
         return requests;
     }
 )
@@ -165,7 +177,10 @@ export const upadateFriends = createAsyncThunk(
         }
         const uid = user.uid;
 
+        await ListHandler.getHandler().handleOweLogRequests();
+
         let friends: Array<Friend> = [];
+        let logs: Array<Backlog> = [];
         const snapshot = await database().ref(`users/${uid}/friends`).once('value');
         snapshot.forEach((friend) => {
             if (friend.key != null) {
@@ -174,35 +189,23 @@ export const upadateFriends = createAsyncThunk(
                     name: friend.child('nick').val(),
                     owe: friend.child('owe').val()
                 });
-            }
-            return undefined;
-        });
-        return friends;
-    }
-)
-
-export const handleOweLogRequests= createAsyncThunk(
-    'fiendsStore/handleOweLogRequests',
-    async (arg, thunkApi) => {
-        const user = auth().currentUser;
-        if (user == null) {
-            return [];
-        }
-        const uid = user.uid;
-
-        let friends: Array<Friend> = [];
-        const snapshot = await database().ref(`users/${uid}/friends`).once('value');
-        snapshot.forEach((friend) => {
-            if (friend.key != null) {
-                friends.push({
+                let log : Array<OweLog> = []
+                friend.child('log').forEach((logItem)=>{
+                    log.push({
+                        list: logItem.child('list').val(),
+                        type: logItem.child('type').val(),
+                        description: logItem.child('description').val(),
+                        cost: logItem.child('amount').val()
+                    });
+                });
+                logs.push({
                     id: friend.key,
-                    name: friend.child('nick').val(),
-                    owe: friend.child('owe').val()
+                    log: log
                 });
             }
             return undefined;
         });
-        return friends;
+        return {friends: friends, logs: logs};
     }
 )
 
@@ -237,7 +240,8 @@ export const firendsSlice = createSlice({
                 state.requests = action.payload;
             })
             .addCase(upadateFriends.fulfilled, (state, action) => {
-                state.friends = action.payload;
+                state.friends = action.payload.friends;
+                state.friendOwe = action.payload.logs;
             })
             .addCase(acceptFriendRequest.fulfilled, (state, action) => {
                 if (action.payload != null) {
