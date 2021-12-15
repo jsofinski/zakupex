@@ -41,6 +41,8 @@ export default StyleSheet.create({
         margin: 12,
         borderWidth: 1,
         padding: 10,
+        backgroundColor: '#ffffff',
+        textAlign: 'center',
     },
     buttonSet: {
         padding: 10,

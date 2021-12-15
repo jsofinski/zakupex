@@ -31,35 +31,33 @@ export default function LoginScreen(props: any) {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
-            <TouchableOpacity style={styles.buttonSet}>
-                <Button color="#f4511e" title="Login" onPress={() => {
-                    if(email != '' && password != ''){
-                        dispatch(login({
-                            email: email,
-                            password: password,
-                            onSuccess: () => props.navigation.navigate('Home'),
-                            onError: (error) => console.log(error)
-                        }));
-                    }
-                }} />
-                <Text />
-                <Button color="#f4511e" title="Don't have an account?" onPress={() =>
-                    props.navigation.navigate('Register')
-                } />
-                <Text />
-                <Button color="#f4511e" title="Cancel" onPress={() =>
-                    props.navigation.navigate('Home')
-                } />
-                <Text />
-                <Button color="#f4511e" title="DEVMODE" onPress={() => {
+            <Button color="#f4511e" title="Login" onPress={() => {
+                if(email != '' && password != ''){
                     dispatch(login({
-                        email: 'A@a.pl',
-                        password: 'Haslo123',
+                        email: email,
+                        password: password,
                         onSuccess: () => props.navigation.navigate('Home'),
                         onError: (error) => console.log(error)
                     }));
-                }} />
-            </TouchableOpacity>
+                }
+            }} />
+            <Text />
+            <Button color="#f4511e" title="Don't have an account?" onPress={() =>
+                props.navigation.navigate('Register')
+            } />
+            {/* <Text />
+            <Button color="#f4511e" title="Cancel" onPress={() =>
+                props.navigation.navigate('Home')
+            } /> */}
+            <Text />
+            <Button color="#f4511e" title="<*** DEVMODE ***>" onPress={() => {
+                dispatch(login({
+                    email: 'A@a.pl',
+                    password: 'Haslo123',
+                    onSuccess: () => props.navigation.navigate('Home'),
+                    onError: (error) => console.log(error)
+                }));
+            }} />
 			</View>
 		</View>
 			
