@@ -57,11 +57,11 @@ export default function FriendsList() {
                                 :
                                 item.owe > 0 ? 
                                     <Text style={styles.item}>
-                                        {item.name}     jest dłużny: {item.owe}zł
+                                        {item.name}     jest dłużny: {item.owe.toFixed(2)}zł
                                     </Text>
                                     :
                                     <Text style={styles.item}>
-                                        {item.name}    jesteś dłużny: {-item.owe}zł
+                                        {item.name}    jesteś dłużny: {-item.owe.toFixed(2)}zł
                                    </Text>
                             }
                             {/* <Image

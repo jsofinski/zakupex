@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Button, Dimensions, Alert } from 'react-native';
+import { View, Text, ScrollView, FlatList, TouchableOpacity, Button, Dimensions, Alert } from 'react-native';
 import auth from '@react-native-firebase/auth'
 import database from '@react-native-firebase/database'
 import styles from '../styles/style'
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { useNavigation } from '@react-navigation/native';
 import { updateFriendRequests, upadateFriends } from '../redux/friendsReducer';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function oweListScreen({ route }) {
     const navigation = useNavigation();
@@ -30,18 +31,17 @@ export default function oweListScreen({ route }) {
             <FlatList
                 data={oweLog}
                 renderItem={({ item }) =>
-                    <View>
+                    <ScrollView>
                         { <TouchableOpacity onPress={() => actionOnRow(item)} onLongPress={() => longActionOnRow(item)}>
                             <Text style={styles.item}>
                                 Lista: {item.list}
                                 {'\n'}
                                 Opis: {item.description}
                                 {'\n'}
-                                {item.type == "owe" ? `Jesteś dłużny: ${item.cost}` : `Zapłaciłeś: ${item.cost}`}
+                                {item.type == "owe" ? `Jesteś dłużny: ${ item.cost.toFixed(2)}` : `Zapłaciłeś: ${item.cost.toFixed(2)}`}
                             </Text>
                         </TouchableOpacity> }
-                        
-                    </View>
+                    </ScrollView>
                 }
                 keyExtractor={(item, index) => index.toString()}
             />

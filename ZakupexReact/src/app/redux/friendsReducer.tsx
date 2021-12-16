@@ -72,13 +72,14 @@ export const updateFriendRequests = createAsyncThunk(
             });
             return undefined;
         });
-
         let n = requests.length;
         for(let i=0; i<n;){
             if((await database().ref(`users/${uid}/friends`).once('value')).hasChild(requests[i].id)){
                 await database().ref(requests[i].path).remove();
                 requests.splice(i,1);
                 n--;
+            }else{
+                i++
             }
         }
         return requests;

@@ -182,6 +182,7 @@ export default function ListScreen({ route }) {
                             renderItem={({ item }) =>
                                 <View>
                                     <TouchableOpacity onPress={() => {
+                                        setModalVisibleAddFriend(!modalVisibleAddFriend);
                                         dispatch(addUserToList({list: route.params.id, user: item.id}));
                                     }}>
                                         <Text style={styles.item}>

@@ -50,7 +50,8 @@ export default function HomeScreen() {
 							}} />
 						<Text />
 							<Button color="#f4511e" title="Znajomi" onPress={() =>{
-									navigation.navigate('FriendsList')
+								dispatch(upadateFriends())
+								navigation.navigate('FriendsList')
 							}} />
 						<Text />
 						<Button color="#f4511e" title="Wyloguj" onPress={() => { dispatch(logout()) }} />

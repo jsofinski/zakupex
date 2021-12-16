@@ -122,13 +122,6 @@ export default function ListListScreen(){
                         onPress={() => {
                             setModalVisibleSettings(!modalVisibleSettings);
                         }}>
-                            <Text style={styles.textStyle}>Dodaj znajomych</Text>
-                        </Pressable>
-                        <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={() => {
-                            setModalVisibleSettings(!modalVisibleSettings);
-                        }}>
                             <Text style={styles.textStyle}>Anuluj</Text>
                         </Pressable>
                     </View>
